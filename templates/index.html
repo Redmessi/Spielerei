@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Football Elo Simulator</title>
+</head>
+<body>
+  <h1>Football Elo Simulator</h1>
+  <div>
+    <label>Team A:</label>
+    <select id="team_a"></select>
+  </div>
+  <div>
+    <label>Team B:</label>
+    <select id="team_b"></select>
+  </div>
+  <div>
+    <label>Result:</label>
+    <select id="result">
+      <option value="1">Team A Win</option>
+      <option value="0.5">Draw</option>
+      <option value="0">Team B Win</option>
+    </select>
+  </div>
+  <button onclick="simulate()">Simulate</button>
+  <pre id="output"></pre>
+<script>
+async function loadTeams() {
+  const res = await fetch('/teams');
+  const teams = await res.json();
+  const selA = document.getElementById('team_a');
+  const selB = document.getElementById('team_b');
+  Object.keys(teams).forEach(team => {
+    const optA = document.createElement('option');
+    optA.value = team;
+    optA.text = team;
+    selA.appendChild(optA);
+    const optB = document.createElement('option');
+    optB.value = team;
+    optB.text = team;
+    selB.appendChild(optB);
+  });
+}
+async function simulate() {
+  const teamA = document.getElementById('team_a').value;
+  const teamB = document.getElementById('team_b').value;
+  const result = parseFloat(document.getElementById('result').value);
+  const res = await fetch('/simulate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ team_a: teamA, team_b: teamB, result })
+  });
+  const data = await res.json();
+  document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+}
+loadTeams();
+</script>
+</body>
+</html>

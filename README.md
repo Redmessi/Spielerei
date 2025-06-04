@@ -21,9 +21,12 @@ This project aims to build a simple web application that simulates football matc
    ```bash
    flask run --app app
    ```
+   On Windows you can use `start.bat` which will create a virtual environment
+   if necessary and start the server automatically.
 
 ## Running the App
-With the server running you can access these endpoints:
+With the server running you can open `http://127.0.0.1:5000/` in your browser
+to use a small test interface. The API exposes these endpoints:
 
 - `GET /teams` lists all teams with their current ELO rating.
 - `POST /simulate` simulates a match. Send JSON with `team_a`, `team_b` and
@@ -35,6 +38,9 @@ curl -X POST http://127.0.0.1:5000/simulate \
   -H "Content-Type: application/json" \
   -d '{"team_a": "Germany", "team_b": "Brazil", "result": 1}'
 ```
+
+To update dependencies later run `update.bat` (Windows) or reinstall from
+`requirements.txt`.
 
 ## Future Improvements
 - Add a frontend interface for easier team selection and match simulation

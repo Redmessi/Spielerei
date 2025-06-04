@@ -1,18 +1,46 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from elo import update_elo
+import csv
+
+
+def load_teams_from_csv(path):
+    """Load team ratings from a semicolon separated CSV file."""
+    teams = {}
+    try:
+        with open(path, newline='', encoding='utf-8') as csvfile:
+            reader = csv.DictReader(csvfile, delimiter=';')
+            for row in reader:
+                team = row.get('Team')
+                rating = row.get('Rating')
+                if team and rating:
+                    try:
+                        teams[team] = float(rating)
+                    except ValueError:
+                        continue
+    except FileNotFoundError:
+        pass
+    return teams
 
 app = Flask(__name__)
 
-# In-memory team store: {team_name: rating}
-teams = {
-    "Germany": 1800,
-    "Brazil": 1900,
-    "Argentina": 1850
-}
+# Load teams from the provided CSV file or use a small default set
+teams = load_teams_from_csv('ELO.csv')
+if not teams:
+    teams = {
+        "Germany": 1800,
+        "Brazil": 1900,
+        "Argentina": 1850,
+    }
 
 @app.route('/teams', methods=['GET'])
 def list_teams():
     return jsonify(teams)
+
+
+@app.route('/')
+def index():
+    """Serve a small test website."""
+    return render_template('index.html')
 
 @app.route('/simulate', methods=['POST'])
 def simulate_match():
