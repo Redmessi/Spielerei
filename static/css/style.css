@@ -1,0 +1,7 @@
+body {background-color: #36393F;color: #FFFFFF;font-family: Arial, sans-serif;padding: 20px;}
+.container {background-color: #2F3136;padding: 20px;border-radius: 5px;max-width: 600px;margin: auto;}
+h1 {text-align: center;margin-bottom: 20px;}
+select, button {width: 100%;padding: 10px;margin: 10px 0;background-color: #40444B;color: #FFF;border: none;border-radius: 3px;}
+button {cursor: pointer;font-weight: bold;}
+.result {text-align: center;margin-top: 20px;font-size: 1.2em;}
+.flag {width: 40px;height: 30px;margin-right: 10px;vertical-align: middle;}
